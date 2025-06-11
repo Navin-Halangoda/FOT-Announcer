@@ -15,8 +15,8 @@
         android:layout_marginTop="368dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_edittext_background"
-        android:hint="Enter username"
-        android:inputType="text"
+        android:hint="Enter email"
+        android:inputType="textEmailAddress"
         android:padding="16dp"
         android:textColor="#333333"
         android:textColorHint="#888888"
@@ -52,8 +52,7 @@
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="sans-serif"
-        android:onClick="#"
-        android:text="Forget password"
+        android:text="Forge tpassword"
         android:textColor="#5D17EB"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/button_login"
@@ -62,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
         app:layout_constraintVertical_bias="0.456" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login"
         android:layout_width="0dp"
         android:layout_height="56dp"

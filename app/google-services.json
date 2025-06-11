@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1096432018967",
+    "project_id": "fotannouncer",
+    "storage_bucket": "fotannouncer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096432018967:android:b7eaf15e8b24bf2ce89e52",
+        "android_client_info": {
+          "package_name": "com.example.fotannouncer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo5WJnLY06tCUIGdFuVrumduK0OgrT3FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

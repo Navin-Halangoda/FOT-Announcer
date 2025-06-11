@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        />
+
+    <item
+        android:title="Sport"
+        android:id="@+id/sport"
+        android:icon="@drawable/sport"
+        />
+
+
+    <item
+        android:title="Acadamic"
+        android:id="@+id/academic"
+        android:icon="@drawable/book"
+         />
+
+    <item
+        android:title="Event"
+        android:id="@+id/event"
+        android:icon="@drawable/calender"
+        />
+
 </menu>
