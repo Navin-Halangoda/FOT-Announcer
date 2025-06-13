@@ -1,88 +1,32 @@
 package com.example.fotannouncer;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import java.util.ArrayList; // Import ArrayList
 
 public class News extends AppCompatActivity {
+
+    private ViewPager2 viewPager2;
+    private BottomNavigationView bottomNavigationView;
     private ImageButton account;
     private ImageButton devinfo;
-    ViewPager2 viewPager2;
-    viewpageadapter viewpageadapter;
-
-    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_news);
-        bottomNavigationView=findViewById(R.id.bottomNavigationView);
-        viewPager2 = findViewById(R.id.fragment_container);
-        viewpageadapter = new viewpageadapter( this);
-        viewPager2.setAdapter(viewpageadapter);
+        setContentView(R.layout.activity_news); // Ensure this matches your main layout name
 
-        // CHANGE THIS LINE: from setOnItemReselectedListener to setOnItemSelectedListener
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) { // Change method name
-                int id = item.getItemId();
-                if (id == R.id.home) {
-                    viewPager2.setCurrentItem(0);
-                } else if (id == R.id.sport) {
-                    viewPager2.setCurrentItem(1);
-                } else if (id == R.id.academic) {
-                    viewPager2.setCurrentItem(2);
-                } else if (id == R.id.event) {
-                    viewPager2.setCurrentItem(3);
-                }
-                return true; // Important: return true to indicate the item selection was handled
-            }
-
-        });
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-                        break;
-                    case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.sport).setChecked(true);
-                        break;
-                    case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.academic).setChecked(true);
-                        break;
-                    case 3:
-                        bottomNavigationView.getMenu().findItem(R.id.event).setChecked(true);
-                        break;
-                }
-                super.onPageSelected(position);
-            }
-        });
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         account = findViewById(R.id.buttonaccount);
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +43,84 @@ public class News extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        viewPager2 = findViewById(R.id.fragment_container);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Setup ViewPager2 with a FragmentStateAdapter that holds all your fragments
+        NewsFragmentAdapter pagerAdapter = new NewsFragmentAdapter(this);
+        viewPager2.setAdapter(pagerAdapter);
+
+        // Listener for BottomNavigationView item selection
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                viewPager2.setCurrentItem(0, false); // false for no smooth scroll
+                return true;
+            } else if (itemId == R.id.sport) {
+                viewPager2.setCurrentItem(1, false);
+                return true;
+            } else if (itemId == R.id.academic) {
+                viewPager2.setCurrentItem(2, false);
+                return true;
+            } else if (itemId == R.id.event) {
+                viewPager2.setCurrentItem(3, false);
+                return true;
+            }
+            return false;
+        });
+
+        // Listener for ViewPager2 page changes (when user swipes)
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                // Update BottomNavigationView selection based on ViewPager2's current page
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.setSelectedItemId(R.id.home);
+                        break;
+                    case 1:
+                        bottomNavigationView.setSelectedItemId(R.id.sport);
+                        break;
+                    case 2:
+                        bottomNavigationView.setSelectedItemId(R.id.academic);
+                        break;
+                    case 3:
+                        bottomNavigationView.setSelectedItemId(R.id.event);
+                        break;
+                }
+            }
+        });
+
+        // Set initial fragment when activity starts
+        if (savedInstanceState == null) {
+            viewPager2.setCurrentItem(0, false); // Start with the Home fragment
+        }
     }
 
+    // Adapter for ViewPager2
+    private static class NewsFragmentAdapter extends FragmentStateAdapter {
+        private final ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        public NewsFragmentAdapter(@NonNull AppCompatActivity fragmentActivity) {
+            super(fragmentActivity);
+            // Add all your fragments to the list in the desired order
+            fragmentList.add(new fragmet_home()); // Index 0: Home
+            fragmentList.add(new fragment_sport());   // Index 1: Sport (You need to create this)
+            fragmentList.add(new fragment_academic()); // Index 2: Academic (You need to create this)
+            fragmentList.add(new fragment_event());    // Index 3: Event (You need to create this)
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return fragmentList.size();
+        }
+    }
 }

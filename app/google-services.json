@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1096432018967",
+    "firebase_url": "https://fotannouncer-default-rtdb.firebaseio.com",
     "project_id": "fotannouncer",
     "storage_bucket": "fotannouncer.firebasestorage.app"
   },
